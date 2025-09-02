@@ -1,7 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
-import { registerValidation } from "./validations/auth.js";
-import { getUser, login, register } from "./controllers/UserController.js";
+import userAuthRouter from "./routes/user-auth.js";
 
 const mongoURI = process.env.MONGO_URI;
 const jwtSecret = process.env.JWT_SECRET;
@@ -27,9 +26,7 @@ app.get("/", (req, res) => {
   res.send("123");
 });
 
-app.post("/auth/login", login);
-app.post("/auth/register", registerValidation, register);
-app.get("/auth/user", getUser);
+app.use("/auth", userAuthRouter);
 
 app.listen(PORT, (error) => {
   if (error) {
